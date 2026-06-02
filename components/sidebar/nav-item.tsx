@@ -17,7 +17,6 @@ export function NavItem({ icon: Icon, label, active, collapsed, onClick }: NavIt
       onClick={onClick}
       className="relative flex items-center w-full p-3 rounded-xl cursor-pointer transition-colors duration-200 group outline-none"
     >
-      {/* Background highlight using layoutId for shared layout animations */}
       {active && (
         <motion.div
           layoutId="active-nav-indicator"

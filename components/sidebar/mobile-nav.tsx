@@ -15,7 +15,6 @@ export function MobileNav() {
     { label: "Settings", icon: Settings },
   ];
 
-  // Derive active tab from URL query params
   const activeTab = searchParams.get("tab") || "dashboard";
   const activeItem = activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
 

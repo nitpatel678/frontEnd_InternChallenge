@@ -11,7 +11,6 @@ export function Sidebar() {
   const searchParams = useSearchParams();
   const [isCollapsed, setIsCollapsed] = useState(false);
 
-  // Auto-collapse sidebar on tablet viewports (< 1024px)
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 1024) {
@@ -21,7 +20,7 @@ export function Sidebar() {
       }
     };
 
-    handleResize(); // Initialize on mount
+    handleResize(); 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -33,7 +32,6 @@ export function Sidebar() {
     { label: "Settings", icon: Settings },
   ];
 
-  // Derive active tab from URL query params (defaulting to "dashboard")
   const activeTab = searchParams.get("tab") || "dashboard";
   const activeItem = activeTab.charAt(0).toUpperCase() + activeTab.slice(1);
 

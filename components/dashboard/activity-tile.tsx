@@ -4,11 +4,9 @@ import { motion } from "framer-motion";
 import { Activity, Flame } from "lucide-react";
 
 export function ActivityTile() {
-  // Generate 7 rows of 24 blocks each to represent a mock learning grid (approx. 6 months/weeks)
   const rows = 7;
-  const cols = 22; // Perfect width for our Bento size
+  const cols = 22; 
 
-  // Helper to determine block color intensity
   const getColorClass = (value: number) => {
     if (value === 0) return "bg-border/60 hover:bg-border";
     if (value === 1) return "bg-accent/20 hover:bg-accent/40 border border-accent/10";
@@ -17,10 +15,8 @@ export function ActivityTile() {
     return "bg-accent hover:bg-accent/90 shadow-md shadow-accent/25 border border-accent/40";
   };
 
-  // Seed a realistic learning graph (100% deterministic to solve hydration mismatch)
   const grid = Array.from({ length: rows }, (_, r) =>
     Array.from({ length: cols }, (_, c) => {
-      // Coordinate-based deterministic hash function so server and client render match exactly
       const hash = (Math.abs(Math.sin((r + 1) * 12.9898 + (c + 1) * 78.233)) * 43758.5453) % 1;
       const isWeekend = r === 0 || r === 6;
       if (isWeekend) {
@@ -69,7 +65,6 @@ export function ActivityTile() {
           ))}
         </div>
 
-        {/* Contribution Grid */}
         <div className="flex-1 flex gap-[3.5px]">
           {Array.from({ length: cols }).map((_, c) => (
             <div key={c} className="flex flex-col gap-[3.5px] justify-between">
@@ -91,7 +86,6 @@ export function ActivityTile() {
         </div>
       </div>
 
-      {/* Legend & Summary */}
       <div className="flex items-center justify-between mt-4 text-[10px] text-muted relative z-10 font-medium">
         <span>320 mins active this month</span>
         <div className="flex items-center gap-1 select-none">

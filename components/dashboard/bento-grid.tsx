@@ -10,7 +10,6 @@ interface BentoGridProps {
   courses: Course[];
 }
 
-// Framer Motion staggered grid variants
 const gridVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -43,17 +42,14 @@ export function BentoGrid({ courses }: BentoGridProps) {
       animate="visible"
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto w-full"
     >
-      {/* Hero Tile - Full width on mobile/tablet, spans 2 cols on desktop */}
       <motion.div variants={cardVariants} className="md:col-span-2 lg:col-span-3">
         <HeroTile />
       </motion.div>
 
-      {/* Activity Tile - Spans 2 cols on tablet & desktop */}
       <motion.div variants={cardVariants} className="md:col-span-2">
         <ActivityTile />
       </motion.div>
 
-      {/* Dynamic Course Tiles */}
       {courses.map((course) => (
         <motion.div key={course.id} variants={cardVariants}>
           <CourseTile course={course} />
