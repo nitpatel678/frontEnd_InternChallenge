@@ -2,7 +2,7 @@
 
 A high-fidelity, futuristic Student Dashboard prototype built as part of a Frontend Intern Challenge. The app features a dark-mode Bento Grid layout, real-time Supabase data fetching via Next.js Server Components, and buttery-smooth Framer Motion animations.
 
-**Live Demo:** [View on Vercel](https://front-end-intern-challenge.vercel.app)
+**Live Demo:** [View on Vercel](https://front-end-intern-challenge.vercel.app/)
 
 ---
 
