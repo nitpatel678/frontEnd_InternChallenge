@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next-Gen Learning Dashboard 🚀
 
-## Getting Started
+A premium, futuristic dark-mode Student Dashboard built with **Next.js 15 (App Router)**, **Supabase**, **Tailwind CSS v4**, and **Framer Motion**. Optimized for responsive layouts, hardware-accelerated micro-animations, and instant server-side data fetching.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🎨 Architectural Decisions
+
+### 1. Server vs. Client Component Split (Hybrid Pattern)
+- **Server Components (RSC)**: Used for primary routing and data fetching (`app/page.tsx`). Fetching course info directly from Supabase securely on the server avoids unnecessary API endpoints and maximizes SEO and page speeds.
+- **Client Components**: Used for interactive dashboard cards, layout indicators, and the collapsible sidebars where user interaction state (active tabs, collapsible sidebar, springs) is needed.
+
+### 2. Zero Layout Shifts & Shimmers
+- We engineered custom skeletal layout containers (`components/dashboard/skeleton-grid.tsx`) that align to the exact columns of the Bento Grid. 
+- Integrated pulsing background gradient shimmers using CSS animations for maximum hardware rendering efficiency.
+
+### 3. Spring Physics Motion Design
+- Every hover interaction scales tiles dynamically by `1.02` with custom spring presets (`stiffness: 300`, `damping: 20`), providing realistic, fluid animations.
+- Nav item shifts utilize Framer Motion's `layoutId` layout animations for smooth background transitions.
+
+---
+
+## 📁 Folder Structure
+
+```
+student-dashboard/
+├── app/
+│   ├── globals.css         # Styling system & customized animations
+│   ├── layout.tsx          # Font optimization, metadata, sidebar shell
+│   ├── loading.tsx         # Streaming skeleton loaders
+│   ├── error.tsx           # Error mitigation boundary
+│   └── page.tsx            # RSC Supabase data fetch
+├── components/
+│   ├── sidebar/
+│   │   ├── sidebar.tsx     # Desktop / Tablet auto-collapsible nav
+│   │   ├── mobile-nav.tsx  # Mobile navigation bar
+│   │   └── nav-item.tsx    # Dynamic individual layoutId navigations
+│   └── dashboard/
+│       ├── bento-grid.tsx  # Bento layouts, staggered entrants
+│       ├── hero-tile.tsx   # Premium hero greeting
+│       ├── course-tile.tsx # Course card with dynamic icons
+│       ├── activity-tile.tsx# Interactive learning activity tracker
+│       ├── progress-bar.tsx# Smooth load-in progress bars
+│       └── skeleton-grid.tsx# Layout-stabilized skeletons
+├── lib/
+│   ├── supabase.ts         # Supabase initializations
+│   └── icons.ts            # Lucide icon dynamically mapped resolver
+├── types/
+│   └── index.ts            # Type safety interfaces
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ⚡ Setup & Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 1. Clone the project
+Navigate into your terminal directory and open the workspace.
 
-## Learn More
+### 2. Install dependencies
+```bash
+npm install
+```
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Setup Environment Variables
+Create a `.env.local` file in the root of the project (reference `.env.example`):
+```env
+NEXT_PUBLIC_SUPABASE_URL=https://zecujkphpornsuhdmjqb.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_publishable_anon_key
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 4. Run Locally
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view your dashboard.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🗄️ Supabase SQL Database Schema
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Execute the following SQL command in your Supabase project's **SQL Editor** to create the `courses` table and seed it with courses matching our resolver icon tags:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```sql
+-- Create Courses Table
+create table courses (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  progress integer not null check (progress >= 0 and progress <= 100),
+  icon_name text not null,
+  created_at timestamp with time zone default now()
+);
+
+-- Seed Dynamic Course Rows
+insert into courses (title, progress, icon_name) values
+  ('Advanced React Patterns', 75, 'code'),
+  ('UI/UX Design Fundamentals', 42, 'palette'),
+  ('Machine Learning Basics', 28, 'brain'),
+  ('System Design & Architecture', 90, 'database');
+```
+
+---
+
+## ☁️ Vercel Deployment Steps
+
+Deploying your project to **Vercel** is simple and secure:
+
+1. Push your code repository to **GitHub / GitLab / Bitbucket**.
+2. Sign in to [Vercel](https://vercel.com) and click **Add New > Project**.
+3. Import your repository.
+4. Expand the **Environment Variables** section and paste your:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+5. Click **Deploy**. Vercel will automatically run build pipelines, configure edge caching, and serve your app globally.
